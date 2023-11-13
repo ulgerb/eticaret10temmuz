@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import *
 from django.db.models import Count, Sum
 from django.contrib import messages
-
+from django.contrib.auth.decorators import login_required
 
 def detailPage(request, slug):
    product = Product.objects.get(slug=slug)
@@ -56,6 +56,8 @@ def detailPage(request, slug):
    }
    return render(request,'product_details.html', context)
 
+
+@login_required(login_url="loginUser")
 def likeComment(request, user, productslug):
    comment = Comment.objects.get(user__username = user, product__slug= productslug)
 
@@ -65,7 +67,7 @@ def likeComment(request, user, productslug):
       comment.like.add(request.user)
    return redirect("detailPage", slug=productslug)
    
-
+@login_required(login_url="loginUser")
 def summaryPage(request):
 
    shopbasket_list = ShopBasket.objects.filter(user=request.user)
@@ -102,7 +104,7 @@ def summaryPage(request):
    }
    return render(request,'product_summary.html', context)
 
-   
+@login_required(login_url="loginUser")
 def summaryDelete(request, sbid):
    shopbasket = ShopBasket.objects.get(user=request.user, id = sbid)
    shopbasket.delete()
@@ -118,7 +120,7 @@ def productPage(request):
    }
    return render(request,'products.html', context)
 
-
+@login_required(login_url="loginUser")
 def productShopAdd(request, pid):
 
    product = Product.objects.get(id=pid)

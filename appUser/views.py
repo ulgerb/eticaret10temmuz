@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from .models import UserInfo
 
 
@@ -50,10 +51,15 @@ def registerPage(request):
          return redirect("loginPage")
    context={}
    return render(request,'user/register.html', context)
+
+
+@login_required(login_url="loginUser")
 def passwordChangePage(request):
    context={}
    return render(request,'user/password-change.html', context)
 
+
+@login_required(login_url="loginUser")
 def logoutUser(request):
    logout(request)
    return redirect("loginPage")

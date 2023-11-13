@@ -3,7 +3,6 @@ from .models import ShopBasket
 def shopBasketInfo(request):
 
    if request.user.is_authenticated: # girişliyse
-
       shopbasket_list = ShopBasket.objects.filter(user=request.user)
       totalproductprice = 0
       totalkdv = 0
@@ -19,4 +18,4 @@ def shopBasketInfo(request):
          "totalprice": totalprice,
       }
       return context
-
+   return ""
