@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block body %}
+
+
+<div id="mainBody">
+	<div class="container">
+		<div class="row">
+
+			<div class="">
+				<ul class="breadcrumb">
+					<li><a href="index.html">Home</a> <span class="divider">/</span></li>
+					<li class="active"> SHOPPING CART</li>
+				</ul>
+				<h3> SHOPPING CART [ <small>3 Item(s) </small>]<a href="products.html" class="btn btn-large pull-right"><i
+							class="icon-arrow-left"></i> Continue Shopping </a></h3>
+				<hr class="soft" />
+
+
+				<table class="table table-bordered">
+					<form method="POST">
+						{% csrf_token %}
+						<thead>
+							<tr>
+								<th>Resim</th>
+								<th>Ürün</th>
+								<th class="d-flex justify-content-between"><div>Adet</div> <button class="btn btn-primary" type="submit">Güncelle</button></th>
+								<th>Fiyat</th>
+								<th>Kargo</th>
+								<th>KDV</th>
+								<th>Total</th>
+							</tr>
+						</thead>
+						<tbody>
+							
+							{% for i in shopbasket_list %}
+								<tr>
+									
+									<td> 
+										<a href="{% url 'detailPage' i.product.slug %}">
+											<img width="60" src="{{ i.product.productimage_set.first.image.url }}" alt="" />	
+										</a>
+									</td>
+										
+									<td>{{ i.product.title }}<br />Color : {{ i.product.color }}</td>
+									<td>
+										<div class="d-flex gap-2 align-items-center">
+											<button class="btn" type="button"><i class="icon-minus"></i></button>
+											<input class="m-0 h-100 quanity" style="max-width:34px" min="1" max="5" value="{{ i.quanity }}" name="quanity" id="quanity" size="16" type="text">
+											<button class="btn" type="button"><i class="icon-plus"></i></button>
+											<a href="{% url 'summaryDelete' i.id %}" class="btn btn-danger" type="button"><i class="icon-remove icon-white"></i></a>
+										</div>
+									</td>
+									<td>${{ i.product.price }}</td>
+									<td> {% if i.total_price >= 500 %}Free{% else %}$15.00{% endif %}</td>
+									<td> {% widthratio i.total_price 100 8 %} </td>
+									<td>${{ i.total_price }}</td>
+								</tr>
+							{% endfor %}
+								
+							
+
+							<tr>
+								<td colspan="6" style="text-align:right">Total Ürün Fiyat: </td>
+								<td> ${{ totalproductprice }}</td>
+							</tr>
+							<tr>
+								<td colspan="6" style="text-align:right">Total Kargo: </td>
+								<td> ${{ totalkargo }}</td>
+							</tr>
+							<tr>
+								<td colspan="6" style="text-align:right">Total KDV: </td>
+								<td> ${{ totalkdv }}</td>
+							</tr>
+							<tr>
+								<td colspan="6" style="text-align:right"><strong>TOTAL =</strong></td>
+								<td class=""> <strong> ${{ totalprice }} </strong></td>
+							</tr>
+						</tbody>
+					</form>
+				</table>
+
+
+				<table class="table table-bordered">
+					<tbody>
+						<tr>
+							<td>
+								<form class="form-horizontal">
+									<div class="control-group">
+										<label class="control-label"><strong> VOUCHERS CODE: </strong> </label>
+										<div class="controls">
+											<input type="text" class="input-medium" placeholder="CODE">
+											<button type="submit" class="btn"> ADD </button>
+										</div>
+									</div>
+								</form>
+							</td>
+						</tr>
+
+					</tbody>
+				</table>
+
+				<table class="table table-bordered">
+					<tr>
+						<th>ESTIMATE YOUR SHIPPING </th>
+					</tr>
+					<tr>
+						<td>
+							<form class="form-horizontal">
+								<div class="control-group">
+									<label class="control-label" for="inputCountry">Country </label>
+									<div class="controls">
+										<input type="text" id="inputCountry" placeholder="Country">
+									</div>
+								</div>
+								<div class="control-group">
+									<label class="control-label" for="inputPost">Post Code/ Zipcode </label>
+									<div class="controls">
+										<input type="text" id="inputPost" placeholder="Postcode">
+									</div>
+								</div>
+								<div class="control-group">
+									<div class="controls">
+										<button type="submit" class="btn">ESTIMATE </button>
+									</div>
+								</div>
+							</form>
+						</td>
+					</tr>
+				</table>
+				<a href="products.html" class="btn btn-large"><i class="icon-arrow-left"></i> Continue Shopping </a>
+				<a href="login.html" class="btn btn-large pull-right">Next <i class="icon-arrow-right"></i></a>
+
+			</div>
+		</div>
+	</div>
+</div>
+<!-- MainBody End ============================= -->
+
+<script>
+	let quanity_list = document.querySelectorAll(".quanity");
+
+	quanity_list.forEach((e)=>{
+		e.previousElementSibling.addEventListener("click", ()=>{
+			if (e.value>1){
+				e.value -= 1;
+			}
+		})
+		e.nextElementSibling.addEventListener("click", ()=>{
+			if (e.value<5){
+				e.value++;
+			}
+		})
+	})
+	
+</script>
+
+{% endblock body %}

@@ -1,0 +1,112 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+
+<style>
+	a{
+		color: lavender;
+	}
+</style>
+
+{% block body %}
+
+
+<div id="mainBody">
+	<div class="container">
+		<div class="row">
+
+			<div class="">
+				<ul class="breadcrumb">
+					<li><a href="index.html">Home</a> <span class="divider">/</span></li>
+					<li class="active">Registration</li>
+				</ul>
+				<h3> Registration</h3>
+				<div class="well">
+		
+					<form method="POST" class="form-horizontal">
+						{% csrf_token %}
+						<h4>Your personal information</h4>
+						
+						<div class="control-group">
+							<label class="control-label" for="inputFname1">First name <sup>*</sup></label>
+							<div class="controls">
+								<input name="fname" type="text" id="inputFname1" required placeholder="First Name">
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="inputLnam">Last name <sup>*</sup></label>
+							<div class="controls">
+								<input name="lname" type="text" id="inputLnam" required placeholder="Last Name">
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="input_email">Email <sup>*</sup></label>
+							<div class="controls">
+								<input name="username_email" type="email" required id="input_email" placeholder="Email">
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="inputPassword1">Password <sup>*</sup></label>
+							<div class="controls">
+								<input name="password1" type="password" required id="inputPassword1" placeholder="Password">
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="inputPassword1">Password <sup>*</sup></label>
+							<div class="controls">
+								<input name="password2" type="password" required id="inputPassword1" placeholder="Password">
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="inputPassword1">Birthdate <sup>*</sup></label>
+							<div class="controls">
+								<input name="birthdate" type="date" required value="1980-01-01" placeholder="">
+							</div>
+						</div>
+
+						<h4>Your address</h4>
+
+						<div class="control-group">
+							<label class="control-label" for="address">Address<sup>*</sup></label>
+							<div class="controls">
+								<input type="text" id="address1" required name="address1" placeholder="Adress" />
+							</div>
+						</div>
+
+						<div class="control-group">
+							<label class="control-label" for="address2">Address (Line 2)</label>
+							<div class="controls">
+								<input type="text" id="address2" name="address2" placeholder="Adress line 2" />
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="city">City<sup>*</sup></label>
+							<div class="controls">
+								<input type="text" name="city" required id="city" placeholder="city" />
+							</div>
+						</div>
+						
+
+
+						<div class="control-group">
+							<label class="control-label" for="mobile">Mobile Phone </label>
+							<div class="controls">
+								<input type="text" name="mobile" required id="mobile" placeholder="Mobile Phone" />
+							</div>
+						</div>
+
+						<p><sup>*</sup>Required field </p>
+
+						<div class="control-group">
+							<div class="controls">
+								<button class="btn btn-large btn-success" type="submit" value="Register">Register</button>
+							</div>
+						</div>
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<!-- MainBody End ============================= -->
+{% endblock body %}

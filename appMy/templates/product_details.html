@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block body %}
+
+
+<div id="mainBody">
+	<div class="container">
+		<div class="row">
+
+			<div class="span9">
+				<ul class="breadcrumb">
+					<li><a href="index.html">Home</a> <span class="divider">/</span></li>
+					<li><a href="products.html">Products</a> <span class="divider">/</span></li>
+					<li class="active">product Details</li>
+				</ul>
+				<div class="row">
+					<div id="gallery" class="span3">
+						<a href="{{ product.productimage_set.first.image.url }}" title="Fujifilm FinePix S2950 Digital Camera">
+							<img src="{{ product.productimage_set.first.image.url }}" style="width:100%; height: 400px; object-fit: contain;"
+								alt="Fujifilm FinePix S2950 Digital Camera" />
+						</a>
+						<div id="differentview" class="moreOptopm carousel slide">
+							<div class="carousel-inner">
+								<div class="item active">
+									
+									{% for i in product.productimage_set.all %}
+									<a href="{{ i.image.url }}"> 
+										<img style="width:30%; height: 300px; object-fit: contain;"
+											src="{{ i.image.url }}" alt="" /></a>
+									{% endfor %}
+										
+								</div>
+								
+							</div>
+							<!--  
+			  <a class="left carousel-control" href="#myCarousel" data-slide="prev">‹</a>
+              <a class="right carousel-control" href="#myCarousel" data-slide="next">›</a> 
+			  -->
+						</div>
+
+						<div class="btn-toolbar">
+							<div class="btn-group">
+								<span class="btn"><i class="icon-envelope"></i></span>
+								<span class="btn"><i class="icon-print"></i></span>
+								<span class="btn"><i class="icon-zoom-in"></i></span>
+								<span class="btn"><i class="icon-star"></i></span>
+								<span class="btn"><i class=" icon-thumbs-up"></i></span>
+								<span class="btn"><i class="icon-thumbs-down"></i></span>
+							</div>
+						</div>
+					</div>
+					<div class="span6">
+						<h3>{{ product.title }} </h3>
+						<hr class="soft" />
+						<form method="POST" class="form-horizontal qtyFrm">
+							{% csrf_token %}
+							<div class="control-group">
+								<label class="control-label"><span>${{ product.price }}</span></label>
+								<div class="controls">
+									<input name="quanity" type="number" class="span1" min="1" max="5" value="1" />
+									<button type="submit" name="submit" value="addShopSubmit" class="btn btn-large btn-primary pull-right"> Add to cart <i
+											class=" icon-shopping-cart"></i></button>
+								</div>
+							</div>
+						</form>
+
+						<hr class="soft" />
+						<h4>{{ product.stok }} items in stock</h4>
+						<form class="">
+							<div class="control-group">
+								<div class="d-flex">
+									Color: <span style="width: 20px; height: 20px; border-radius: 5px; margin: 0 5px; background-color: {{ product.color.title_code }};"></span> {{ product.color.title }}
+								</div>
+							</div>
+						</form>
+						<hr class="soft clr" />
+						<p>
+							{{ product.text }}
+
+						</p>
+						<a class="btn btn-small pull-right" href="#detail">More Details</a>
+						<br class="clr" />
+						<a href="#" name="detail"></a>
+						<hr class="soft" />
+					</div>
+
+					<section style="background-color: #454545;">
+						<div class="container my-5 py-5">
+							<div class="row d-flex justify-content-center">
+								<div class="col-md-12 col-lg-10">
+									<div class="fs-4 fw-bold text-white">Yorum Yap</div>
+									<form method="POST">
+										{% csrf_token %}
+										<div class="form-group">
+											<label class="form-label text-light">Yorumunuz:</label>
+											<textarea class="form-control" name="text" placeholder="Yorum yazınız..." cols="30" rows="6"></textarea>
+										</div>
+										<button class="btn btn-success my-2" name="submit" value="commentSubmit" type="submit">Paylaş</button>
+									</form>
+								</div>
+
+								<hr class="text-white">
+								
+								<div class="col-md-12 col-lg-10">
+									<div class="card text-dark">
+										
+										
+										{% for i in comments %}
+											<hr class="my-0" />
+											<div class="card-body p-4">
+												<div class="d-flex flex-start">
+													<!-- <img class="rounded-circle shadow-1-strong me-3"
+														src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(24).webp" alt="avatar" style="width: 60px; height: 60px;"/> -->
+													<div class="w-100">
+														<h6 class="fw-bold mb-1">{{ i.user.username }}</h6>
+														<div class="d-flex align-items-center mb-3">
+															<p class="mb-0">
+																{{ i.date_now }}
+															</p>
+															
+															{% if i.user == request.user %}
+															<a href="#!" onclick="commentChange()" class="link-muted"><i class="fas fa-pencil-alt ms-2"></i></a>
+															{% endif %}
+																
+															<a href="{% url 'likeComment' i.user.username product.slug %}" class="link-muted {% if request.user in i.like.all %}text-danger{% endif %}"><i class="fas fa-heart ms-2"></i>{{ i.like.all|length }}</a>
+														</div>
+														<p class="mb-0 ps-1 ms-2 {% if i.user == request.user %}comm{% endif %}">
+															{{ i.text }}
+														</p>
+														{% if i.user == request.user %}
+														<form class="d-none comm-form" method="POST">
+															{% csrf_token %}
+															<textarea class="form-control w-100" rows="8" name="text">{{ i.text }}</textarea>
+															<button type="submit" name="submit" value="commentUpdateSubmit" class="link-muted text-primary btn">Yorumu Düzenle</button>
+														</form>
+														{% endif %}
+													</div>
+													
+												</div>
+											</div>
+										{% endfor %}
+											
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- MainBody End ============================= -->
+<script>
+	let comm = document.querySelector(".comm")
+	let comm_form = document.querySelector(".comm-form")
+	
+	const commentChange = ()=>{
+		comm.classList.toggle("d-none")
+		comm_form.classList.toggle("d-none")
+	}
+	
+</script>
+{% endblock body %}

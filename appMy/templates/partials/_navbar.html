@@ -1,0 +1,79 @@
+{% load static %}
+<div id="header">
+   <div class="container">
+      <div id="welcomeLine" class="row">
+         <div class="">Welcome!<strong> User</strong></div>
+         <div class="">
+            <div class="pull-right">
+               <span class="btn btn-mini">En</span>
+               <span class="btn btn-mini">${{ totalprice }}</span>
+               <a href="{% url 'summaryPage' %}"><span class="btn btn-mini btn-primary"><i
+                        class="icon-shopping-cart icon-white"></i> [ {{ shopbasket_list|length }} ] </span> </a>
+            </div>
+         </div>
+      </div>
+      <!-- Navbar ================================================== -->
+      <div id="logoArea" class="navbar pb-0">
+         <a id="smallScreen" data-target="#topMenu" data-toggle="collapse" class="btn btn-navbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+         </a>
+         <div class="navbar-inner w-100">
+            <a class="brand" href="{% url 'indexPage' %}"><img src="{% static 'themes/images/logo.png' %}" alt="Bootsshop" /></a>
+           
+            <ul id="topMenu" class="nav pull-right">
+               <li class=""><a href="{% url 'indexPage' %}">Home</a></li>
+               <li class=""><a href="{% url 'productPage' %}">Products</a></li>
+               <li class=""><a href="{% url 'contactPage' %}">Contact</a></li>
+
+               
+               {% if request.user.is_authenticated %}
+               <!-- Right elements -->
+               <div class="d-flex align-items-center mt-2 ps-5">
+                  <!-- Avatar -->
+                  <div class="dropdown mt-3">
+                     <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#" id="navbarDropdownMenuAvatar"
+                        role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+                        <img style="width: 25px;" src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" height="25"
+                           alt="Black and White Portrait of a Man" loading="lazy" />
+                     </a>
+                     <ul class="dropdown-menu dropdown-menu-end" style="margin-left: -114px;" aria-labelledby="navbarDropdownMenuAvatar">
+                        <li>
+                           <a class="dropdown-item" href="#">{{ request.user }}</a>
+                        </li>
+                        <li>
+                           <a class="dropdown-item" href="#">Settings</a>
+                        </li>
+                        <li>
+                           <a class="dropdown-item" href="{% url 'logoutUser' %}">Çıkış</a>
+                        </li>
+                     </ul>
+                  </div>
+               </div>
+               <!-- Right elements -->
+                  
+               {% else %}
+               <li class="">
+                  <a class="text-warning" href="{% url 'loginPage' %}" role="button">
+                     <div class="btn btn-warning mb-2">
+                        Login
+                     </div>
+                  </a>
+                  
+               </li>
+               <li class="">
+                  <a class="text-warning" href="{% url 'registerPage' %}" role="button">
+                     Register</a>
+                  
+               </li>
+               {% endif %}
+                  
+               
+               
+               
+            </ul>
+         </div>
+      </div>
+   </div>
+</div>
