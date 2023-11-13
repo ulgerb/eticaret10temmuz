@@ -53,13 +53,13 @@ def registerPage(request):
    return render(request,'user/register.html', context)
 
 
-@login_required(login_url="loginUser")
+@login_required(login_url="loginPage")
 def passwordChangePage(request):
    context={}
    return render(request,'user/password-change.html', context)
 
 
-@login_required(login_url="loginUser")
+@login_required(login_url="loginPage")
 def logoutUser(request):
    logout(request)
    return redirect("loginPage")

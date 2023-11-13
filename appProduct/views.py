@@ -57,7 +57,7 @@ def detailPage(request, slug):
    return render(request,'product_details.html', context)
 
 
-@login_required(login_url="loginUser")
+@login_required(login_url="loginPage")
 def likeComment(request, user, productslug):
    comment = Comment.objects.get(user__username = user, product__slug= productslug)
 
@@ -67,7 +67,7 @@ def likeComment(request, user, productslug):
       comment.like.add(request.user)
    return redirect("detailPage", slug=productslug)
    
-@login_required(login_url="loginUser")
+@login_required(login_url="loginPage")
 def summaryPage(request):
 
    shopbasket_list = ShopBasket.objects.filter(user=request.user)
@@ -104,7 +104,7 @@ def summaryPage(request):
    }
    return render(request,'product_summary.html', context)
 
-@login_required(login_url="loginUser")
+@login_required(login_url="loginPage")
 def summaryDelete(request, sbid):
    shopbasket = ShopBasket.objects.get(user=request.user, id = sbid)
    shopbasket.delete()
@@ -120,7 +120,7 @@ def productPage(request):
    }
    return render(request,'products.html', context)
 
-@login_required(login_url="loginUser")
+@login_required(login_url="loginPage")
 def productShopAdd(request, pid):
 
    product = Product.objects.get(id=pid)
